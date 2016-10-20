@@ -1,0 +1,67 @@
+REPLACE PROCEDURE INSERT_ALL_NEW (IN OLD_MODEL_ID INTEGER,IN SEQ_NO INTEGER)
+/* *************************************************************************************************
+
+Name			 : INSERT_ALL_NEW
+Created by  :  Anantha
+Date 		    :  05 Jan 2014
+Description  : To Insert all the replacements after checking the duplicates.
+
+Logic:
+------
+sample teradata procedure
+
+* **************************************************************************************************/
+BEGIN
+
+DECLARE L_IN_MODEL_ID     INTEGER;
+DECLARE L_SEQ_NO            INTEGER;
+DECLARE L_DUP_COUNT 		INTEGER;
+ 
+SET L_IN_MODEL_ID = OLD_MODEL_ID;
+SET L_SEQ_NO = SEQ_NO;
+
+
+	BEGIN 
+	
+		FOR NEWMDLCUR AS OLDCUR CURSOR FOR
+			SELECT	Y.NEW_MODEL_ID
+			FROM	REPLACEMENTS Y 
+			WHERE
+			Y.OLD_MODEL_ID = L_IN_MODEL_ID
+			AND Y.NEW_MODEL_ID NOT IN (SELECT Z.NEW_MODEL_ID FROM MODEL_GRP11 Z WHERE Z.OLD_MODEL_ID = L_IN_MODEL_ID)
+			ORDER BY Y.NEW_MODEL_ID
+		DO
+		
+		BEGIN
+
+				SET L_DUP_COUNT = 0;
+				
+				
+					
+				SELECT COUNT(1) INTO L_DUP_COUNT FROM 				
+				MODEL_GRP11
+				WHERE GROUP_ID = L_SEQ_NO
+				AND OLD_MODEL_ID = TRIM(L_IN_MODEL_ID)
+				AND NEW_MODEL_ID = TRIM(NEWMDLCUR.NEW_MODEL_ID);		
+		
+		IF (L_DUP_COUNT = 0) THEN
+		
+			INSERT INTO MODEL_GRP11 VALUES (L_SEQ_NO,L_IN_MODEL_ID,NEWMDLCUR.NEW_MODEL_ID);
+			
+			
+			--calling the procedure to insert all the old model list 
+			CALL INSERT_ALL_NEW(NEWMDLCUR.NEW_MODEL_ID,L_SEQ_NO);
+			
+			--now calling the procedure to insert all the new model list
+			CALL INSERT_ALL_OLD(NEWMDLCUR.NEW_MODEL_ID,L_SEQ_NO);
+			
+		
+		END IF;
+											
+		END;
+		
+		END FOR;
+				
+	END; --main block
+
+END ;
