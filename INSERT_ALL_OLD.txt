@@ -1,0 +1,61 @@
+REPLACE PROCEDURE INSERT_ALL_OLD (IN NEW_MODEL_ID INTEGER,IN SEQ_NO INTEGER)
+/* *************************************************************************************************
+
+Name			 : INSERT_ALL_OLD
+Created by  :  Anantha
+Date 		    :  05 Jan 2014
+Description  : To Insert all the old models(replaced) after checking the duplicates.
+
+
+* **************************************************************************************************/
+BEGIN
+
+DECLARE L_IN_MODEL_ID     INTEGER;
+DECLARE L_SEQ_NO            INTEGER;
+DECLARE L_DUP_COUNT 		INTEGER;
+ 
+SET L_IN_MODEL_ID = NEW_MODEL_ID;
+SET L_SEQ_NO = SEQ_NO;
+
+	BEGIN
+	
+		FOR OLDMDLCUR AS NEWCUR CURSOR FOR
+			SELECT	Y.OLD_MODEL_ID
+			FROM	REPLACEMENTS Y 
+			WHERE
+			Y.NEW_MODEL_ID = L_IN_MODEL_ID
+			AND Y.OLD_MODEL_ID NOT IN (SELECT Z.OLD_MODEL_ID FROM MODEL_GRP11 Z WHERE Z.NEW_MODEL_ID = L_IN_MODEL_ID)
+			ORDER BY Y.OLD_MODEL_ID
+		DO
+		
+		BEGIN
+		
+				SET L_DUP_COUNT = 0;
+				
+				SELECT COUNT(1) INTO L_DUP_COUNT FROM 				
+				MODEL_GRP11
+				WHERE GROUP_ID = L_SEQ_NO
+				AND OLD_MODEL_ID = TRIM(OLDMDLCUR.OLD_MODEL_ID)
+				AND NEW_MODEL_ID = TRIM(L_IN_MODEL_ID);		
+		
+		IF (L_DUP_COUNT = 0) THEN
+		
+			INSERT INTO MODEL_GRP11 VALUES (L_SEQ_NO,OLDMDLCUR.OLD_MODEL_ID,L_IN_MODEL_ID);
+			
+			--calling the procedure to insert all the old model list 
+			CALL INSERT_ALL_OLD(OLDMDLCUR.OLD_MODEL_ID,L_SEQ_NO);
+			
+			--calling the procedure to insert all the new model list
+			CALL INSERT_ALL_NEW(OLDMDLCUR.OLD_MODEL_ID,L_SEQ_NO);
+			
+			
+			
+		END IF;
+					
+		END ; --Begin End Block
+		
+		END FOR;								
+				
+	END; --main block
+
+END;

@@ -1,0 +1,45 @@
+REPLACE PROCEDURE MODEL_GROUPING_LOGIC ()
+/* *************************************************************************************************
+
+Name			 : MODEL_GROUPING_LOGIC
+Created by  :  Anantha
+Date 		    :  02 Jan 2014
+
+
+Logic:
+------
+
+
+* **************************************************************************************************/
+BEGIN
+
+DECLARE L_SEQ_NO  INTEGER;
+
+UPDATE MODEL_SEQ SET SEQ_NO = 1;
+
+
+DELETE  MODEL_GRP11;
+
+
+FOR	MODELCURSOR AS C_MODELS CURSOR FOR
+
+SELECT	X.OLD_MODEL_ID
+FROM	REPLACEMENTS X 
+WHERE X.OLD_MODEL_ID  IN (214,215,216,333,1317)
+ORDER BY X.OLD_MODEL_ID
+DO
+	
+	BEGIN		
+	
+	SELECT SEQ_NO INTO L_SEQ_NO FROM MODEL_SEQ;
+		
+		CALL	INSERT_ALL_NEW(MODELCURSOR.OLD_MODEL_ID ,L_SEQ_NO);	
+	
+	UPDATE MODEL_SEQ SET SEQ_NO = SEQ_NO + 1;
+	
+	END;
+	
+END FOR;
+
+
+END;
