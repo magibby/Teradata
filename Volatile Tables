@@ -1,0 +1,51 @@
+You are working in a Teradata database application. 
+You have to CREATE a table and insert some records for performance analysis. 
+You have to DROP the table once you have done with your job. If this is the case, will you think a smart way for this?
+
+Yeah. Teradata gives VOLATILE option with CREATE TABLE syntax. 
+
+What special ?
+
+If you create table with VOLATILE option, the life of the table will be only for the current session.
+It will be automatically dropped by Teradata manager once session expires. (Both definition and content)
+
+Syntax:
+
+1./* Volatile Table Syntax - Teradata */2.CREATE VOLATILE TABLE table_13.(4.column1 datatype,5.column2 datatype,6..7..8.columnN datatype9.);
+
+CREATE VOLATILE TABLE table_1
+(
+column1 datatype,
+column2 datatype,
+..
+..
+.columnN datatype
+.);
+
+
+Interesting about VOLATILE:
+
+Now, you are creating a VOLATILE table and inserting some records successfully into it.
+SELECT * from the volatile table. Shocked ? ...
+Yes. You cannot see the records because Teradata becomes strict to VOLATILE tables by incorporating ON COMMIT DELETE ROWS by default to add more meaning to VOLATILE.
+
+so, if you want to see the records you have to explicitly write ON COMMIT PRESERVE ROWS immediately after CREATE TABLE syntax.
+
+
+CREATE VOLATILE TABLE table_1
+(
+column1 datatype,
+column2 datatype,
+.
+.
+columnN datatype
+) ON COMMIT PRESERVE ROWS;
+
+More about VOLATILE:
+
+1. You can have 1000 volatile tables in an active session.
+2. CHECK and REFERENTIAL constraints are not allowed.
+3. DEFAULT clause not allowed.
+
+
+Here VOLATILE says, DO and GO.. i will take care...
