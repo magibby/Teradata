@@ -1,0 +1,271 @@
+Active Data Warehouse > Real time data
+Oracle Golden gate
+
+Thru CDC tools real time data is processe
+
+Indexes : UPI, NUPI, USI, NUSI
+
+PE - Parsing Engine 
+ByNet - By network
+AMP - Access Module Processor
+Vproc - Virtual Processor
+Vdisk - Virtual Disk
+SMP - Symmetric Multi Pro
+MPP - Massive Parallel Proc
+
+PE work:
+Select syntax
+Avalilablity of table or objetcs?
+
+By Net : Processes the syntax to amps
+Amp retrives data fromm vdisk to Bynet
+
+--------------------------
+Emp Num   Emp Name    Dept Num   Dept Name   Id
+--------------------------
+
+Data Squeing - Unequal work load to AMP  
+Equal work load is done by sharing the data among all the AMP's (Done thru UPI)
+
+Clique - Protection (Group of nodes)
+
+Hot Stand by Node - replacement Node if a node fails
+
+Optimizors : Parallel Aware, Matured 
+
+------------------------------------------------------------------------------
+SQL Assistant 					Bteq - Querying the DB
+------------------------------------------------------------------------------
+CUI -Charater user interface			GUI
+ODBC						CLI (Call Level interface), host file
+Connects to any DB				Only Teradata
+Gives unformated output				formated output
+------------------------------------------------------------------------------
+Teradata Commands:
+
+select - SEL 
+insert - INS
+update - UPD
+delete - DEL
+create table - CT
+
+cs - CASE Sensitive
+Literal - introducing a dummy value for union
+
+Operators:
+
+1. Relational Operator :  =, <>, < , >, <=, >=
+2. aRITHMETIC oPERATORS : *, / , + , - , Mod
+3. Logical Operators : AND, OR, NOT (precedence - Not > AND > OR)
+4. Set Operators : UNION, UNION ALL, INTERSECT, MINUS (Equivalent EXcept)
+5. WILD Card operators : %(anything, maybe, may not), _ (must have one character)
+6. Concatenation Operator : || 
+
+QUANTIFIER : any, some, all(similar to AND)
+
+create table emp_address (Emp_No Integer, emp_address Varchar(10));
+
+sel 
+COalesce (emp.emp_no,Emp_Address.Emp_NO) as emp_no, 
+Emp.Ename,
+Emp.Sal,
+Emp.Comm,
+Emp_Address.emp_address
+from 
+Emp full outer join Emp_Address 
+on emp.emp_no = emp_address.emp_no  
+
+Naming conventions:
+1. table name cannot exceed more than 30 character
+2. Ato Z, 0 to 9, #, $, _
+3. table name cannot start with a number
+
+Agg Functions:
+1. Count - 
+2. Sum
+3. Max
+4. Min
+5. Avg
+
+Group by Function - 
+
+sel age, gender, income from customer_Name with Sum(Income) by gender order by age, gender;
+
+update kd_view 
+set gender = 'F'
+where cust_Id = '1362500'  
+
+create macro M_Macro_Emp (emp_no Integer, Ename Char(10), Sal Integer, Comm Integer) as 
+(insert into emp values (:emp_no, :ename, :Sal,:Comm););
+
+Perm space error - No more rooms
+
+Temp Tables : Derived, Volatile, Global temp (Occupies Temp space)
+
+create volatile table VT1 (emp_no Integer, ename Varchar (10), Sal Integer );
+
+create volatile table VT2 (emp_no Integer, Ename Varchar(10), Sal Integer) on commit preserve rows;
+
+select session - for session number
+
+Period - Datatype for SCD2
+
+Teradata Utilities: 
+1. FastLoad -> FlatFile to Teradata table (empty table), used in staging
+2. MultiLoad -> FlatFile to Teradata table (can be empty or with records), can insert, update, upsert (update and insert), delete.
+3. TPump -> Used for slow load, locks only the record being inserted unlike FL and ML whichs locks the entire table.
+4. Bteq -> Basic Terdata Query 
+5. Fast Export -> Teradata table to flat file
+6. TPT -> Teradata Parallel Transporter. Can read data from Flatfiles and databases. 
+
+TDPID - Teradata Director Program/ Processor ID
+
+---------------------
+FastLoad : 
+
+1. Target table should be empty
+2. Locks at table level
+3. Supports only insert 
+4. Used for initial loading 
+5. target table does not support a. join index, b. Hash index, c. No secondary index, d. No Foreign key referential integrity
+				 e. No Trigger allowed
+6. Error table 1 captures translation error and constraint violation (Soft - simple checks, Hard - Keys and other complex violations). 
+7. Error table 2 captures UPI violations
+8. FastLoad never captures duplicate records 
+9. Error table will be dropped if there is no errors
+10.FastLoad has 2 phases - 1. Aquistation phase 2. Application phase
+
+----------
+Compress - can compress 255 values of a column
+Varchar cannot be compressed in the current versions	
+--------
+Error Code: 
+0 - Normal completion
+4 - Warning 
+8 - User Error
+12 - Server Internal Error
+16 - No message available 
+
+-----
+
+Mload:
+
+1. Mload can insert data in 5 tables at a time (in single script), FL can only insert in one at a time	
+2. Delete using Mload is fast ( as it delets at block level)
+3. Mload allows NUSI
+4. Journaling is allowed
+5. Aggregations are not allowed
+
+---------
+
+Collect Stats:
+
+Confidence is low on NUPI, No confidence when queried on non index
+
+----------
+Data Protection:
+
+1. Transient Journal 
+2. fallback
+3. Fallback Cluster
+4. Cliques
+5. Hot standby node
+6. Down Amp recovery journal
+7. Raid
+8. permanent Journal
+9. CheckSum - Checks the disk consistency 
+10.Locks
+
+No wait - Avoids dead lock, checks if there is any other lock on the table, If yes then abort the request.
+
+Level of Lock: database, table, row.
+
+Row level lock is applicable on UPI, NUPI and USI.
+------------------
+
+Data Dictonary (Metadata):
+dbc.tables, dbc.columns, 
+
+
+Index Types:
+P - Primary Index
+S - Secondary index
+J - Join Index
+Q - Partition Primary index
+N - Hash Index
+K - primary Key
+V - Value Ordered Non unique Secondary Index
+U - Unique Constraint
+
+------------------
+Script for realsing dead locks:
+.logon 127.0.0.1/dbc, dbc;
+release lock (financial.emp), override;
+logoff;
+
+ArcMain is an utility to run administrative jobs 
+ArcMain < Scriptname.txt 
+
+show table customer;
+
+/*Value Ordered unique secondary index*/
+
+CREATE SET TABLE FINANCIAL.customer_1 ,NO FALLBACK ,
+     NO BEFORE JOURNAL,
+     NO AFTER JOURNAL,
+     CHECKSUM = DEFAULT
+     (
+      cust_id INTEGER NOT NULL,
+      income INTEGER,
+      age SMALLINT,
+      years_with_bank SMALLINT,
+      nbr_children SMALLINT,
+      gender CHAR(1) CHARACTER SET LATIN NOT CASESPECIFIC,
+      marital_status CHAR(1) CHARACTER SET LATIN NOT CASESPECIFIC)
+UNIQUE PRIMARY INDEX ( cust_id )
+index (age) order by values (age);
+
+/*Set and Multiset*/
+
+select * from emp;
+
+insert into emp values (108, 'safdsaf', 433743, 100);
+
+---------------
+
+
+CT customer100 as ( select * from customer) with no data;
+
+show table customer101; 
+
+CT customer101 as  customer with no data;
+
+insert into customer100 sel * from customer;
+
+sel * from customer100;
+
+insert into customer101 values(?,?,?,?,?,?,?);
+
+select * from customer101;
+
+create table emp_int(empno integer, age byteint, mobileno bigint);
+
+insert into emp_int values(1001,100,2);
+
+------------------------------
+
+sel * from emp1;
+
+sel * from sys_calendar.calendar where calendar_date = date ;
+
+help table  sys_calendar.calendar;
+
+---------------------------
+/*Compress*/
+
+CT emp_compress ( emp_no integer, ename varchar(10), city char(10) compress ('bangalore','gurgaon', 'chennai'));
+
+show table emp_compress;
+
+CT emp_compress11 ( emp_no integer, ename varchar(10), city char(10) compress ('bangalore','gurgaon', 'chennai'))
+ primary index (city);
