@@ -1,0 +1,110 @@
+1. SET and MULTISET Tables:
+---------------------------
+
+In teradata the default table is SET table (this does not allow duplicate rows, i.e if the values are same in every column for the two rows the teradata would not accept the row)
+
+However according to the ANSCII standards the duplicate rows is possible and in teradata, explicit mentioning of the same needs to be done else the default option is SET option.
+
+2. Teradata SQL Assistant (TSA):
+-------------------------------
+
+Definition:
+Teradata SQL Assistant (TSA), as part of Teradata Tools and Utilities (TTU), is an ODBC-based client utility used to access and manipulate data on ODBC-compliant database servers. It has two editions: 
+1) Teradata SQL Assistant for Microsoft Windows
+2) Teradata SQL Assistant/Web Edition
+
+Teradata SQL Assistant is an information discovery tool designed for Windows XP and Windows 2000. Teradata SQL Assistant retrieves data from any ODBC-compliant database server. The data can then be manipulated and stored on the desktop PC. 
+
+Teradata SQL Assistant/Web Edition is a web-based query tool that allows you to compose queries, submit them to the Teradata Database, and then view the results in a web browser. 
+
+Overview:
+Teradata SQL Assistant for Microsoft Windows, originally called "Queryman" (before V. 6.0)or "QueryMan" (V. 6.0 and up), is also known as "SQLA" among programmers. It supports import / export tasks, but not the serious ones. With its user-friendly GUI, TSA for Windows is generally oriented to business users and casual data consumers. (Refer to BTEQ for comparison.) TSA / Web Edition has fewer functions than TSA for Windows. The key features of each are presented below.
+
+The key features of Teradata SQL Assistant are:
+    * Send queries to any ODBC database or the same query to many different databases;
+    * Export data from the database to a file on a PC;
+    * Create reports from any RDBMS that provides an ODBC interface;
+    * Import data from a PC file directly to the database;
+    * Use an import file to create many similar reports (query results or Answersets). For example, display the DDL (SQL) that was used to create a list of tables;
+    * Create a historical record of the submitted SQL with timings and status information such as success or failure;
+    * Use SQL syntax examples to tailor statements;
+    * Use the Database Explorer Tree to easily view database objects;
+    * Use a procedure builder that provides a list of valid statements for building the logic of a stored procedure;
+    * Limit data returned to prevent runaway queries. 
+
+The key features of SQL Assistant / Web Edition are:
+    * Send queries to any Teradata Database;
+    * View and sort the results by column and save them to a file;
+    * Save queries to a file so you can run them automatically from the same file in the future;
+    * Load queries from a file and make changes before submitting them to the database;
+    * View historical records of the queries you have submitted with timings and status information. You can sort the history rows by column, update them with your notes, and save the records to a file;
+    * View a hierarchical listing of databases with object names to reduce the time required to create SQL statements;
+    * Use the browser’s built-in find features to do a string search on a query, an answer set, or any information in the historical table visible in the browser window;
+    * Abort a query in progress if you change your mind about running a query or if a query is taking longer than you expected;
+
+    * Client browser’s connection ends after 30 minutes of inactivity.
+
+PE - Parsing Engine :
+---------------------
+
+PE, acronym for "Parsing Engine," is the type of vproc (Virtual Processor) for session control, task dispatching and SQL parsing in the multi-tasking and possibly parallel-processing environment of the Teradata Database.
+
+
+DEFINITION
+
+PE, acronym for "Parsing Engine," is the type of vproc (Virtual Processor) for session control, task dispatching and SQL parsing in the multi-tasking and possibly parallel-processing environment of the Teradata Database. Vproc is a software process running in an SMP (Symmetric Multiprocessing) environment or a node.
+
+
+COMPONENTS
+
+The components of a PE vproc can be classified as the following:
+
+   1. Parser: It desolves SQL statements into RDBMS processing steps;
+   2. Query Optimizer: It decides the optimal way to access data;
+   3. Step Generator: It 1) produces processing steps, and 2) encapsulates them into packages;
+   4. Dispatcher: It 1) transmits the encapsulated steps from the parser to the pertinent AMPs, and 2) performs monitoring and error-handling functionalities during step processing;
+   5. Session Controller: It 1) manipulates session-control activities (e.g., logon, authentication, and logoff), and 2) restores sessions after client or server failures. 
+
+
+OVERVIEW
+
+PE is an instance of the database management software responsible for the communication between the requesting client and the relevant AMPs, usually via the BYNET. Each PE runs independently to handle sessions, parse SQL statements into processing steps with optimization, dispatching the steps to the relevant AMPs and sends the processing results back to the requesting client. 
+
+The PE vproc was invented in Teradata V2 to replace the following dedicated physical processors that performed the similar functions on the DBC 1012 systems:
+
+    * The InterFace Processor(IFP) - The IFP was responsible for the communication between the DBC and the HOST. Its components included parser, dispatcher, session controller, client interface and YNET interface.
+    * The COmmunication Processor (COP) - The COP was similar in function as IFP, but responsible for communication with network-attached hosts (DOS-PC/UNIX). 
+
+
+Vprocs :
+-------
+
+
+DEFINITION 
+
+Vproc, acronym for "Virtual PROCessor," is a self-contained instance of the processor software on a Teradata platform (SMP platform or a node). Vprocs are the basic units of parallelism that make up the Teradata database server.
+
+
+OVERVIEW
+
+To put it simply, a virtual processor is a simulated processor in a processing software system, or a software version of a dedicated physical processor. Each vproc uses a portion of the physical processor resource, and runs independently of other vprocs.  The vprocs co-existing within a node share a single memory pool - a collection of free memory in the node. The portion of memory allocated from the pool to one vproc will be returned to the pool after usage for use by other vprocs.
+
+Vprocs are the basic units of parallelism that make up the Teradata database server. A single SMP node is made up of multiple vprocs, and a single Teradata MPP system is made up of multiple SMP nodes.  Vprocs run as multi-threaded processes to enable Teradata's parallel execution of tasks without using specialized physical processors.  They are labeled as "Virtual Processors" because they perform the similar processing functions as physical processors (CPU).
+
+The concept of virtual processors is often utilized in the multithreading technology for parallel processing. Some examples are available from IBM Informix, HP POSIX and VM Host (HP-UX 11i) and SUN Solaris OS, though the concept is used differently in each case.
+
+The concept of vprocs was introduced to Teradata to eliminate the need for proprietary technology in the form of physical processors. With Teradata V1 - the version used on DBC 1012, there were three types of physical processors:
+
+    * The InterFace Processor(IFP) was responsible for the communication between the DBC and the HOST. Its components included parser, dispatcher, session controller, client interface and YNET interface.
+    * The COmmunication Processor (COP) was the type of IFP that contained a gateway process for communication with hosts (DOS-PC/UNIX) via a network.     * The Access Module Processor (AMP) was the physical processing unit for all the Teradata database functions. Each AMP contained its own microprocessor, disk drive, file system, database software (Database Manager), Teradata Operating System (TOS), and YNET interface. In some sense, an AMP was a node. 
+
+The YNET Interconnection Network linked all the IFPs, COPs, and AMPs together with circuit boards and cables.
+
+In Teradata V2, the above-mentioned physical processors (IFP, COP, and AMP) were replaced by Virtual PROCessors (vprocs), which were invented as an abstraction layer between the work-unit multithreading and the physical parallel processing system. [6] Logically, each vproc is a seperate AMP or PE instance within an SMP node. Physically, a vproc is a directly addressable collection of processes that allow data correction and fault tolerance. Teradata allocates its data rows across all AMP vprocs via hash partitioning. PE vprocs manage sessions, break work units down to multiple steps, make query plans and distribute the steps to the relevant AMP vprocs. The AMPs process the steps in parallel. Differently from Teradata V1, there may be multiple AMPs in a node.
+
+To sum up, as Carrie Ballinger and Ron Fryer observe, "the VPROC is the fundamental unit of apportionment, and delivers basic query parallelism to all work in the system." 
+
+work in process ..
+
+need to add total features .. 
+
