@@ -148,3 +148,39 @@ MODEL_NM_NEW VARCHAR(100)
 
 1  214  1345
 1  214  1346
+
+--another example with date snipps
+
+CT  emp_dbo (emp_no Integer, dob date);
+
+insert into emp_dbo values ( 101, '2015-02-19');
+
+sel * from emp_dbo;
+
+sel emp_no, dob, dob(Format  'mmm-dd-yyyy') from emP_Dbo;
+
+/*  Date Formats  */
+
+Year =
+sel  (2015 - 1900) * 10000  ;
+1,150,000
+
+Month =
+sel  (2 * 100)  ;
+200
+
+Day = 
+Sel (19 *1 ) ; 
+19
+
+sel 1,150,000 + 200 + 19;
+
+1150219
+
+insert into emp_dob values (102, 1150219);
+
+----------------------
+
+sel * from emp_dob;
+
+sel emp_no, dob, dob (format 'mmmm-eee-yyyy') from emp_dob; 
