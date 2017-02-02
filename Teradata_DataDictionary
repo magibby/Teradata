@@ -1,0 +1,24 @@
+Version 13
+----------
+Data Dictionary Views :
+-----------------------
+
+View definitions are stored in the table DBC.TVM. 
+View column information is stored in DBC.TVFields.	
+---------------------------------------------------
+Without the X :	they display global information
+With the X	:   they display information associated with the requesting user only
+With the V	:   they display information associated with the Unicode version, where object name columns have a data type of VARCHAR(128)
+Without the V	: "they display information associated with the Compatibility version, where object name columns have a
+                data type of CHAR(30)"
+
+Examples of Data Dictionary Views:
+----------------------------------
+AccessLog[V] : Displays, by row, the results of a privilege check performed in response to a request.
+AccLogRules[V]	: Provides information about logging rules that are currently in effect on the system.
+AccountInfo[V][X] : Provides information about valid accounts.
+AllRoleRights[V] : Lists all rights granted to each role.
+AllSpace[V][X] : Gives both database and table space utilization.
+
+Data Dictionary Tables:
+-----------------------
