@@ -1,0 +1,6 @@
+--To Release lock
+
+.LOGON 127.0.0.1/dbc,dbc;
+release lock (financial.emp), override;
+logoff;
+
