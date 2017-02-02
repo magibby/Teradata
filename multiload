@@ -1,0 +1,271 @@
+.Logtable financial.emp_log;
+.Logon 127.0.0.1/dbc,dbc;
+database financial;
+.Begin Import Mload 
+Tables Emp_phone; 
+.Layout Layoutname;
+.Field EmpNo * char(10); 
+.Field Phoneno * char(10); 
+.DML Label DMLlabelname 
+Do insert for missing update rows;
+Update Emp_phone
+set PhoneNo = :Phoneno
+where EmpNo = :Empno;
+Insert into Emp_phone 
+(EmpNo, PhoneNo)
+values
+(:EmpNo, :Phoneno);
+.Import Infile D:\ml\emp.txt 
+format text 
+Layout LayoutName 
+Apply DMLlabelname;
+.End Mload;
+.Logoff;
+
+
+--example log 
+
+
+     ========================================================================
+     =                                                                      =
+     =          MultiLoad Utility    Release MLOD.13.00.00.005              =
+     =          Platform WIN32                                              =
+     =                                                                      =
+     ========================================================================
+     =                                                                      =
+     =     Copyright 1990-2009 Teradata Corporation. ALL RIGHTS RESERVED.   =
+     =                                                                      =
+     ========================================================================
+**** 11:45:52 UTY2411 Processing start date: WED FEB 25, 2015
+     ========================================================================
+     =                                                                      =
+     =          Logon/Connection                                            =
+     =                                                                      =
+     ========================================================================
+0001 .Logtable financial.emp_log;
+0002 .Logon 127.0.0.1/dbc,;
+**** 11:45:52 UTY8400 Teradata Database Release: 13.00.00.12
+**** 11:45:52 UTY8400 Teradata Database Version: 13.00.00.12
+**** 11:45:52 UTY8400 Default character set: ASCII                         
+**** 11:45:52 UTY8400 Current RDBMS has interval support
+**** 11:45:52 UTY8400 Current RDBMS has UDT support
+**** 11:45:52 UTY8400 Maximum supported buffer size: 1M
+**** 11:45:52 UTY8400 Data Encryption supported by RDBMS server
+**** 11:45:52 UTY6211 A successful connect was made to the RDBMS.
+**** 11:45:52 UTY6217 Logtable 'financial.emp_log' has been created.
+     ========================================================================
+     =                                                                      =
+     =          Processing Control Statements                               =
+     =                                                                      =
+     ========================================================================
+0003 database financial;
+**** 11:45:52 UTY1016 'DATABASE' request successful.
+0004 .Begin Import Mload 
+     Tables Emp_phone; 
+     ========================================================================
+     =                                                                      =
+     =          Processing MultiLoad Statements                             =
+     =                                                                      =
+     ========================================================================
+0005 .Layout Layoutname;
+0006 .Field EmpNo * char(10); 
+0007 .Field Phoneno * char(10); 
+0008 .DML Label DMLlabelname 
+     Do insert for missing update rows;
+0009 Update Emp_phone
+     set PhoneNo = :Phoneno
+     where EmpNo = :Empno;
+0010 Insert into Emp_phone 
+     (EmpNo, PhoneNo)
+     values
+     (:EmpNo, :Phoneno);
+0011 .Import Infile D:\ml\emp.txt 
+     format text 
+     Layout LayoutName 
+     Apply DMLlabelname;
+0012 .End Mload;
+     ========================================================================
+     =                                                                      =
+     =          MultiLoad Initial Phase                                     =
+     =                                                                      =
+     ========================================================================
+**** 11:45:52 UTY0829 Options in effect for this MultiLoad import task:
+     .       Sessions:    One session per available amp.
+     .       Checkpoint:  15 minute(s).
+     .       Tenacity:    4 hour limit to successfully connect load sessions.
+     .       Errlimit:    No limit in effect.
+     .       AmpCheck:    In effect for apply phase transitions.
+**** 11:45:52 UTY0817 MultiLoad submitting the following request:
+     Select NULL from financial.emp_log where (LogType = 125) and (Seq = 1) and
+     (MloadSeq = 0);
+**** 11:45:52 UTY0817 MultiLoad submitting the following request:
+     Select NULL from financial.emp_log where (LogType = 120) and (Seq = 1);
+**** 11:45:53 UTY0815 MLOAD session(s) connected: 2.
+**** 11:45:53 UTY0817 MultiLoad submitting the following request:
+     BEGIN MLOAD Emp_phone WITH INTERVAL;
+**** 11:45:53 UTY0817 MultiLoad submitting the following request:
+     INS financial.emp_log (LogType, Seq, MLoadSeq)VALUES(130, 1, 10);
+**** 11:45:53 UTY0817 MultiLoad submitting the following request:
+     MLOAD Emp_phone with WT_Emp_phone errortables ET_Emp_phone, UV_Emp_phone;
+     ========================================================================
+     =                                                                      =
+     =          MultiLoad DML Transaction Phase                             =
+     =                                                                      =
+     ========================================================================
+**** 11:45:53 UTY0817 MultiLoad submitting the following request:
+     BT;
+**** 11:45:53 UTY0817 MultiLoad submitting the following request:
+     USING EMPNO(CHAR(10)), PHONENO(CHAR(10)) Update Emp_phone
+     set PhoneNo = :Phoneno
+     where EmpNo = :Empno;
+**** 11:45:53 UTY0817 MultiLoad submitting the following request:
+     USING EMPNO(CHAR(10)), PHONENO(CHAR(10)) Insert into Emp_phone 
+     (EmpNo, PhoneNo)
+     values
+     (:EmpNo, :Phoneno);
+**** 11:45:53 UTY0817 MultiLoad submitting the following request:
+     INS financial.emp_log (LogType, Seq, MLoadSeq)VALUES(130, 1, 20);
+**** 11:45:53 UTY0817 MultiLoad submitting the following request:
+     ET;
+     ========================================================================
+     =                                                                      =
+     =          MultiLoad Acquisition Phase                                 =
+     =                                                                      =
+     ========================================================================
+**** 11:45:53 UTY0817 MultiLoad submitting the following request:
+     BEGIN TRANSACTION;
+**** 11:45:53 UTY0817 MultiLoad submitting the following request:
+     CHECKPOINT LOADING INTERVAL 0;
+**** 11:45:53 UTY0817 MultiLoad submitting the following request:
+     CHECKPOINT LOADING INTERVAL 0;
+**** 11:45:54 UTY0817 MultiLoad submitting the following request:
+     CHECKPOINT LOADING INTERVAL 0;
+**** 11:45:55 UTY0817 MultiLoad submitting the following request:
+     USING Ckpt(VARBYTE(1024)) INSERT financial.emp_log  (Logtype, Seq,
+     MLoadSeq, MLoadImpSeq, MLoadSrcSeq, MiscInt1,MiscInt2,MiscInt3,MiscInt4,
+     MiscInt5,MiscInt6,MiscInt7,MiscInt8,CkptInterval,MLoadCkpt) VALUES (110, 1,
+     0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, :Ckpt);
+**** 11:45:55 UTY0817 MultiLoad submitting the following request:
+     CHECKPOINT LOADING INTERVAL 0;
+**** 11:45:56 UTY0817 MultiLoad submitting the following request:
+     USING Ckpt(VARBYTE(1024)) INSERT financial.emp_log  (Logtype, Seq,
+     MLoadSeq, MLoadImpSeq, MLoadSrcSeq, MiscInt1,MiscInt2,MiscInt3,MiscInt4,
+     MiscInt5,MiscInt6,MiscInt7,MiscInt8,CkptInterval,MLoadCkpt) VALUES (110, 1,
+     1, 1, 0, 5, 5, 5, 5, 0, 0, 0, 0, 0, :Ckpt);
+**** 11:45:56 UTY0826 A checkpoint has been taken, recording that end of file has been reached
+     for IMPORT 1 of this MultiLoad Import task. 
+**** 11:45:56 UTY1803 Import processing statistics
+     .                                       IMPORT  1     Total thus far
+     .                                       =========     ==============
+     Candidate records considered:........           5.......           5
+     Apply conditions satisfied:..........           5.......           5
+     Candidate records not applied:.......           0.......           0
+     Candidate records rejected:..........           0.......           0
+**** 11:45:56 UTY0817 MultiLoad submitting the following request:
+     CHECKPOINT LOADING INTERVAL 0;
+**** 11:45:57 UTY0817 MultiLoad submitting the following request:
+     CHECKPOINT LOADING INTERVAL 0 END;
+**** 11:45:58 UTY0817 MultiLoad submitting the following request:
+     INS financial.emp_log (LogType, Seq, MLoadSeq)VALUES(130, 1, 30);
+**** 11:45:58 UTY0817 MultiLoad submitting the following request:
+     ET;
+     ========================================================================
+     =                                                                      =
+     =          MultiLoad Application Phase                                 =
+     =                                                                      =
+     ========================================================================
+**** 11:45:58 UTY0817 MultiLoad submitting the following request:
+     EXEC MLOAD Emp_phone;
+**** 11:45:58 UTY0818 Statistics for table Emp_phone:
+        Inserts:            2
+        Updates:            3
+        Deletes:            0
+**** 11:45:58 UTY0817 MultiLoad submitting the following request:
+     INS financial.emp_log (LogType, Seq) VALUES (115, 1)
+**** 11:45:58 UTY0817 MultiLoad submitting the following request:
+     BEGIN TRANSACTION;
+**** 11:45:58 UTY0817 MultiLoad submitting the following request:
+     END MLOAD;
+**** 11:45:58 UTY0817 MultiLoad submitting the following request:
+     INS financial.emp_log (LogType, Seq) VALUES (120, 1)
+**** 11:45:58 UTY0817 MultiLoad submitting the following request:
+     USING Ckpt(VARBYTE(1024)) INS financial.emp_log (LogType, Seq,
+     MLoadCkpt)VALUES(135, 1, :Ckpt);
+**** 11:45:58 UTY0817 MultiLoad submitting the following request:
+     END TRANSACTION;
+     ========================================================================
+     =                                                                      =
+     =          MultiLoad Task Cleanup                                      =
+     =                                                                      =
+     ========================================================================
+**** 11:45:58 UTY0817 MultiLoad submitting the following request:
+     SELECT COUNT(*) FROM ET_Emp_phone;
+**** 11:45:58 UTY0821 Error table ET_Emp_phone is EMPTY, dropping table.
+**** 11:45:58 UTY0817 MultiLoad submitting the following request:
+     BEGIN TRANSACTION;
+**** 11:45:58 UTY0817 MultiLoad submitting the following request:
+     INS financial.emp_log (LogType, Seq, MLoadSeq)VALUES(125, 1, 1)
+**** 11:45:58 UTY0817 MultiLoad submitting the following request:
+     DROP TABLE ET_Emp_phone;
+**** 11:45:58 UTY0817 MultiLoad submitting the following request:
+     END TRANSACTION;
+**** 11:45:58 UTY0817 MultiLoad submitting the following request:
+     SELECT COUNT(*) FROM UV_Emp_phone;
+**** 11:45:58 UTY0821 Error table UV_Emp_phone is EMPTY, dropping table.
+**** 11:45:58 UTY0817 MultiLoad submitting the following request:
+     BEGIN TRANSACTION;
+**** 11:45:58 UTY0817 MultiLoad submitting the following request:
+     INS financial.emp_log (LogType, Seq, MLoadSeq)VALUES(125, 1, 2)
+**** 11:45:58 UTY0817 MultiLoad submitting the following request:
+     DROP TABLE UV_Emp_phone;
+**** 11:45:59 UTY0817 MultiLoad submitting the following request:
+     END TRANSACTION;
+**** 11:45:59 UTY0817 MultiLoad submitting the following request:
+     BEGIN TRANSACTION;
+**** 11:45:59 UTY0817 MultiLoad submitting the following request:
+     INS financial.emp_log (LogType, Seq, MLoadSeq)VALUES(125, 1, 3)
+**** 11:45:59 UTY0817 MultiLoad submitting the following request:
+     DROP TABLE WT_Emp_phone;
+**** 11:45:59 UTY0817 MultiLoad submitting the following request:
+     END TRANSACTION;
+**** 11:45:59 UTY0825 Error table statistics for: 
+
+     Target table 1: Emp_phone
+     Number of Rows  Error Table Name
+     ==============  ========================================================
+                  0  ET_Emp_phone
+                  0  UV_Emp_phone
+
+**** 11:45:59 UTY0817 MultiLoad submitting the following request:
+     BEGIN TRANSACTION;
+**** 11:45:59 UTY0817 MultiLoad submitting the following request:
+     USING Ckpt(VARBYTE(1024)) INS financial.emp_log (LogType, Seq,
+     MLoadCkpt)VALUES(140, 1, :Ckpt);
+**** 11:45:59 UTY0817 MultiLoad submitting the following request:
+     INS financial.emp_log (LogType, Seq) VALUES (125, 1)
+**** 11:45:59 UTY0817 MultiLoad submitting the following request:
+     END TRANSACTION;
+**** 11:46:00 UTY0822 MultiLoad processing complete for this MultiLoad import task.
+     ========================================================================
+     =                                                                      =
+     =          MultiLoad Task Complete                                     =
+     =                                                                      =
+     ========================================================================
+**** 11:46:00 UTY1024 Session modal request, 'DATABASE', re-executed.
+     ========================================================================
+     =                                                                      =
+     =          Processing Control Statements                               =
+     =                                                                      =
+     ========================================================================
+0013 .Logoff;
+     ========================================================================
+     =                                                                      =
+     =          Logoff/Disconnect                                           =
+     =                                                                      =
+     ========================================================================
+**** 11:46:00 UTY6216 The restart log table has been dropped.
+**** 11:46:00 UTY6212 A successful disconnect was made from the RDBMS.
+**** 11:46:00 UTY2410 Total processor time used = '0.202801 Seconds'
+     .       Start : 11:45:52 - WED FEB 25, 2015
+     .       End   : 11:46:00 - WED FEB 25, 2015
+     .       Highest return code encountered = '0'.
