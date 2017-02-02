@@ -1,0 +1,10 @@
+Create Table Syntax :
+---------------------
+
+CREATE SET TABLE financial.emp_phone ,NO FALLBACK ,
+     NO BEFORE JOURNAL,
+     NO AFTER JOURNAL
+     (
+      EmpNo VARCHAR(10) CHARACTER SET LATIN NOT CASESPECIFIC,
+      PhoneNo VARCHAR(10) CHARACTER SET LATIN NOT CASESPECIFIC)
+PRIMARY INDEX ( EmpNo );
