@@ -1,0 +1,54 @@
+Loggin into BTEQ
+----------------
+
+.LOGON 127.0.0.1/dbc,dbc;
+DATABASE financial;
+COLLECT STATS ON customer COLUMN (age);
+COLLECT STATS ON customer INDEX(cust_id);
+.logoff
+.EXIT
+
+Example :
+---------
+
+BTEQ 13.00.00.03 Wed Feb 25 12:33:45 2015
+ 
++---------+---------+---------+---------+---------+---------+---------+----
+.LOGON 127.0.0.1/dbc,
+
+ *** Logon successfully completed.
+ *** Teradata Database Release is 13.00.00.12                   
+ *** Teradata Database Version is 13.00.00.12                     
+ *** Transaction Semantics are BTET.
+ *** Character Set Name is 'ASCII'.
+ 
+ *** Total elapsed time was 1 second.
+ 
++---------+---------+---------+---------+---------+---------+---------+----
+DATABASE financial;
+
+ *** New default database accepted. 
+ *** Total elapsed time was 1 second.
+
+
++---------+---------+---------+---------+---------+---------+---------+----
+COLLECT STATS ON customer COLUMN (age);
+
+ *** Update completed. One row changed. 
+ *** Total elapsed time was 1 second.
+
+
++---------+---------+---------+---------+---------+---------+---------+----
+COLLECT STATS ON customer INDEX(cust_id);
+
+ *** Update completed. One row changed. 
+ *** Total elapsed time was 1 second.
+
+
++---------+---------+---------+---------+---------+---------+---------+----
+.logoff
+ *** You are now logged off from the DBC.
++---------+---------+---------+---------+---------+---------+---------+----
+.EXIT
+ *** Exiting BTEQ...
+ *** RC (return code) = 0 
