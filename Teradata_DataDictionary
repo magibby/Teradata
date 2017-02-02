@@ -22,3 +22,12 @@ AllSpace[V][X] : Gives both database and table space utilization.
 
 Data Dictionary Tables:
 -----------------------
+The following sections list the system tables contained by user DBC.
+
+AccLogTbl : Contains the result of the logging activity controlled by the AccLogRuleTbl
+Accounts : Contains a row for each account with which a user can log on.
+Acctg : Contains a row for each account a user owns on each AMP
+ArchiveLoggingObjsTbl : Records tables that have online archive logs and their online archive logging levels.
+AsgdSecConstraints : Defines the name value pairs assigned to a user or profile for a security constraint.
+CollationTbl : Contains user-definable collation definitions.
+ColumnCorrelation : Stores the column correlation information.
