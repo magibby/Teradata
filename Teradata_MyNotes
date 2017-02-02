@@ -269,3 +269,93 @@ show table emp_compress;
 
 CT emp_compress11 ( emp_no integer, ename varchar(10), city char(10) compress ('bangalore','gurgaon', 'chennai'))
  primary index (city);
+
+
+CT T26 (emp_no Int , ename varchar (10), dept_no Int , Id_Card_no Int ) no primary index;
+help index t26;
+show table t26;
+help database financial;
+
+/* Case partition*/
+
+CT Order11 (order_no Int Not Null, 
+Cust_No int Not Null,
+Order_Date Date,
+Order_total Decimal(10,2))
+primary Index (Cust_No) 
+Partition by Case_N 
+(Order_total < 1000, 
+Order_Total < 5000,
+Order_total < 10000,
+No Case, Unknown);
+-----------------------------
+/* Range partition*/
+
+CT Order12 (order_no Int Not Null, 
+Cust_No int Not Null,
+Order_Date Date,
+Order_total Decimal(10,2))
+unique primary Index (Cust_No, order_date) 
+Partition by Range_N
+(Order_date between date '2000-01-01' and date '2000-12-31' each interval '1' month);
+
+-----------------------------
+
+ sel c.cust_id, c.income,cn.age, cn.gender
+ from customer c  inner join customer_name cn 
+ on (c.cust_id = cn.cust_id);
+ 
+ Create Join Index JI11 as 
+  sel c.cust_id, c.income,cn.age, cn.gender
+ from customer c  inner join customer_name cn 
+ on (c.cust_id = cn.cust_id);
+ 
+ create join index JI12 as
+  sel gender, count(*) as total_P from customer
+ group by gender;
+ 
+ show join index JI12;
+ 
+ CT  emp_dbo (emp_no Integer, dob date);
+
+insert into emp_dbo values ( 101, '2015-02-19');
+
+sel * from emp_dbo;
+
+sel emp_no, dob, dob(Format  'mmm-dd-yyyy') from emP_Dbo;
+
+/*  Date Formats  */
+
+Year =
+sel  (2015 - 1900) * 10000  ;
+1,150,000
+
+Month =
+sel  (2 * 100)  ;
+200
+
+Day = 
+Sel (19 *1 ) ; 
+19
+
+sel 1,150,000 + 200 + 19;
+
+1150219
+
+insert into emp_dob values (102, 1150219);
+
+----------------------
+/* Date Formating */
+
+sel * from emp_dob;
+
+sel emp_no, dob, dob (format 'mmmm-eeee-yyyy') from emp_dob; 
+
+
+CT emp_dob11 ( emp_no Int, dob date format 'mmm-dd-yyyy') ;
+
+sel * from dbc.sessioninfo;
+
+insert into emp_dob11 values (101, 'feb-19-2015');
+
+sel * from emp_dob11;
