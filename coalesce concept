@@ -1,0 +1,50 @@
+
+COALESCE is used to check if the argument is NULL, if it is NULL then it takes the default value.
+
+It will check for NOT NULL values sequentially in the list and it will return the first NOT NULL value.
+
+Syntax:
+
+1.COALESCE(Argument list,['default value'])
+
+Argument list - May be columns of a table or expressions
+
+COALESCE returns NULL if all its arguments evaluate to null. 
+Otherwise, it returns the value of the first non-null argument in the given expression list.
+Each COALESCE function must have at least two operands. Either two columns or one column with one default value.
+
+It is possible to have multiple columns under coalesce like below:
+
+1.COALESCE(col1, col2, col3, 0)
+
+
+The above code says that if col1 is null then it will check col2.
+If col2 is null then it will check for col3.
+If col3 is also null, then 0 will be the output.
+
+If coalesce encounters any of the column having not null value then the column value will be returned by the query. (Left to right priority)
+
+Example : 1
+If the country takes NULL value, 'US' will be supplied by Teradata
+
+
+1.SELECT COALESCE(Country,'US') as Output
+
+The following example returns the home phone number of the named individual (if present), or office phone if HomePhone is null, or CellPhone if present and both home and office phone values are null. Returns NULL if all three values are null.
+
+1.SELECT 
+2.Name, 
+3.COALESCE (HomePhone, OfficePhone, cellPhone) FROM  PhoneDirectory;
+
+When a default value is provided, default value will be returned if all the input fields are null
+
+
+1.SELECT 
+2.Name, 
+3.COALESCE (HomePhone, OfficePhone, cellPhone,'No Phone') FROM  PhoneDirectory;
+
+
+Example:3
+Whenever you combine COALESCE with non-comparison operators, such as || or * or +, you must enclose the entire COALESCE function and its operands in parentheses.
+
+1.SELECT (COALESCE(100,0)) * 5;
