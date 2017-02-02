@@ -1,0 +1,154 @@
+sel * from emp where ename like some('%r%','%j%')
+
+sel a.* , b.* from emp a inner join emp_address b on a.empno = b.empno;
+
+sel a.* , b.* frm emp a inner join emp_address b on a.empno = b.empno;
+
+select a.*, b.* from emp a left outer join emp_address b on a.empno = b.empno;
+select a.*, b.* from emp a left join emp_address b on a.empno = b.empno;
+
+
+select a.*, b.* from emp a right join emp_address b on a.empno = b.empno;
+
+select a.*, b.* from emp a full join emp_address b on a.empno = b.empno;
+
+select coalesce(a.empno,b.empno) as empno,a.ename,a.sal,a.commission,b.address from emp a full join emp_address b on a.empno = b.empno;
+
+select age,gender,count(*) as Gender_Count from customer group by age,gender;
+
+
+select age,gender, income from customer_name with sum(income) by gender order by age,gender;
+
+select age,gender, income from customer_name with max(income) by gender order by age,gender;
+
+create view v1 as
+(select empno, ename, commission, sal+ commission as total from emp);
+
+
+cv v2 as
+(select empno, ename, commission, sal+ commission as total from emp);
+
+update customer_m set gender = 'F' where cust_id = 1362500;
+
+create macro m_customer as (select * from customer_name;);
+
+select * from dbc.tables where upper(databasename) = 'FINANCIAL';
+
+SELECT * FROM DBC.COLUMNS WHERE COLUMNNAME LIKE 'empname';
+
+
+create volatile table vt2 as (select EMPNO,ENAME, SAL from emp) with data on commit preserve rows;
+
+create global temporary table gt1 (empno integer, ename varchar(20), sal integer) on commit preserve rows;
+ 
+select age, gender, sum(income) from customer group by rollup (age,gender) order by age, gender;
+
+sel empno, dob, dob(format 'mmm-dd-yyyy') from emp_dbo;
+
+year = (2015 - 1900) * 1000
+
+ct t3 (empno int unique not null, ename varchar(10), deptno int, idcardno int primary key not null);
+
+ct t4 (empno int primary key not null, ename varchar(10), deptno int, idcardno int) primary index (deptno) ;
+
+ct t5 (empno int , ename varchar(10), deptno int, idcardno int) no primary index ;
+
+
+ct order1 (orderno int not null, custno int not null, orderdate date, ordertotal decimal(10,2))
+primary index(custno)
+partition by case_n
+(ordertotal < 1000, ordertotal < 5000, ordertotal < 10000 , no case, unknown);
+
+ct order2 (orderno int not null, custno int not null, orderdate date, ordertotal decimal(10,2))
+unique primary index(custno,orderdate)
+partition by range_n
+(orderdate between date '2000-01-01' and date '2000-12-31' each interval '1' month);
+
+select c.cust_id, c.income,cn.age,cn.gender from customer c inner join customer_name cn on (c.cust_id = cn.cust_id);
+
+create join index ji1 as
+select c.cust_id, c.income,cn.age,cn.gender 
+from customer c inner join customer_name cn 
+on (c.cust_id = cn.cust_id);
+
+
+create join index ji2 as select count(1) as count_number, age, gender from customer
+group by age,gender
+;
+
+create join index ji2 as select gender , count(1) AS total_p from customer group by gender;
+
+sel * from emp where ename like some('%r%','%j%')
+
+sel a.* , b.* from emp a inner join emp_address b on a.empno = b.empno;
+
+sel a.* , b.* frm emp a inner join emp_address b on a.empno = b.empno;
+
+select a.*, b.* from emp a left outer join emp_address b on a.empno = b.empno;
+select a.*, b.* from emp a left join emp_address b on a.empno = b.empno;
+
+select a.*, b.* from emp a right join emp_address b on a.empno = b.empno;
+
+select a.*, b.* from emp a full join emp_address b on a.empno = b.empno;
+
+select coalesce(a.empno,b.empno) as empno,a.ename,a.sal,a.commission,b.address from emp a full join emp_address b on a.empno = b.empno;
+
+select age,gender,count(*) as Gender_Count from customer group by age,gender;
+
+select age,gender, income from customer_name with sum(income) by gender order by age,gender;
+
+select age,gender, income from customer_name with max(income) by gender order by age,gender;
+
+create view v1 as
+(select empno, ename, commission, sal+ commission as total from emp);
+
+cv v2 as
+(select empno, ename, commission, sal+ commission as total from emp);
+
+update customer_m set gender = 'F' where cust_id = 1362500;
+
+create macro m_customer as (select * from customer_name;);
+
+select * from dbc.tables where upper(databasename) = 'FINANCIAL';
+
+SELECT * FROM DBC.COLUMNS WHERE COLUMNNAME LIKE 'empname';
+
+create volatile table vt2 as (select EMPNO,ENAME, SAL from emp) with data on commit preserve rows;
+
+create global temporary table gt1 (empno integer, ename varchar(20), sal integer) on commit preserve rows;
+ 
+select age, gender, sum(income) from customer group by rollup (age,gender) order by age, gender;
+
+sel empno, dob, dob(format 'mmm-dd-yyyy') from emp_dbo;
+
+year = (2015 - 1900) * 1000
+
+ct t3 (empno int unique not null, ename varchar(10), deptno int, idcardno int primary key not null);
+
+ct t4 (empno int primary key not null, ename varchar(10), deptno int, idcardno int) primary index (deptno) ;
+
+ct t5 (empno int , ename varchar(10), deptno int, idcardno int) no primary index ;
+
+
+ct order1 (orderno int not null, custno int not null, orderdate date, ordertotal decimal(10,2))
+primary index(custno)
+partition by case_n
+(ordertotal < 1000, ordertotal < 5000, ordertotal < 10000 , no case, unknown);
+
+ct order2 (orderno int not null, custno int not null, orderdate date, ordertotal decimal(10,2))
+unique primary index(custno,orderdate)
+partition by range_n
+(orderdate between date '2000-01-01' and date '2000-12-31' each interval '1' month);
+
+select c.cust_id, c.income,cn.age,cn.gender from customer c inner join customer_name cn on (c.cust_id = cn.cust_id);
+
+create join index ji1 as
+select c.cust_id, c.income,cn.age,cn.gender 
+from customer c inner join customer_name cn 
+on (c.cust_id = cn.cust_id);
+
+create join index ji2 as select count(1) as count_number, age, gender from customer
+group by age,gender
+;
+
+create join index ji2 as select gender , count(1) AS total_p from customer group by gender;
