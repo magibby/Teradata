@@ -1,0 +1,41 @@
+Teradata Utilities
+
+1. TPump (Teradata Parallel Data Pump)
+
+    * TPUMP allows near real time updates from Transactional Systems into the Data Warehouse.
+    * It can perform Insert, Update and Delete operations or a combination from the same source.
+    * It can be used as an alternative to MLOAD for low volume batch maintenance of large databases.
+    * TPUMP allows target tables to have Secondary Indexes, Join Indexes, Hash Indexes, Referential Integrity, Populated or Empty Table, Multiset or Set Table or Triggers defined on the Tables.
+    * TPUMP can have many sessions as it doesn’t have session limit.
+    * TPUMP uses row hash locks thus allowing concurrent updates on the same table.
+
+Limitations of Teradata TPUMP Utility:
+    * Use of SELECT statement is not allowed.
+    * Concatenation of Data Files is not supported.
+    * Exponential & Aggregate Operators are not allowed.
+    * Arithmatic functions are not supported.
+
+2. MultiLoad 
+
+MultiLoad is a batch mode utility in Teradata which is used to insert, update and delete data to/from a populated table. It has following features:
+
+    * MultiLoad supports upto 5 populated tables per script.
+    * MultiLoad has an ability to perform Inserts, Updates and Deletes.
+    * Target tables may contain pre-existing data but shouldn’t have USIs (Unique Secondary Indexes) defined on a table.
+    * Target tables shouldn’t have Refrential Integrity.
+
+5 phases in a MultiLoad Utility
+    * Preliminary Phase – Basic Setup
+    * DML Phase – Get DML steps down on AMPs
+    * Acquisition Phase – Send the input data to the AMPs  and sort it
+    * Application Phase – Apply the input data to the appropriate Target Tables
+    * End Pahse – Basic Cleanup
+
+Limitations of Teradata Multiload Utility: 
+MultiLoad is a very powerful utility; it has following limitations:
+    * MultiLoad Utility doesn’t support SELECT statement.
+    * Concatenation of multiple input data files is not allowed.
+    * MultiLoad doesn’t support Arithmetic functions i.e. ABS, LOG etc. in Mload Script.
+    * MultiLoad doesn’t support Exponentiation and Aggregator Operators i.e. AVG, SUM etc. in Mload Script.
+    * MultiLoad doesn’t support USIs (Unique Secondary Indexes), Refrential Integrity, Join Indexes, Hash Indexes and Triggers.
+    * Import task require use of PI (Primary Index).
