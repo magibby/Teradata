@@ -52,3 +52,22 @@ COLLECT STATS ON customer INDEX(cust_id);
 .EXIT
  *** Exiting BTEQ...
  *** RC (return code) = 0 
+
+---another example script for BTEQ
+
+.logtable financial.fxp_log;
+.logon 127.0.0.1/dbc,dbc;
+database financial;
+
+.begin export;
+
+.export outfile c:\fe\acctsdata.txt MODE RECORD FORMAT TEXT;
+Select
+Cast(
+                cast(cust_id as char(7))||'|'||
+                cast(acct_start_date as date format 'dd-mmm-yyyy')||'|'||
+                cast(acct_nbr as char(16))
+                as char(34))
+                from financial.accts;
+.end export;
+.logoff;
