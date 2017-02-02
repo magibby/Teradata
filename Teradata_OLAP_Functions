@@ -1,0 +1,37 @@
+/*OLAP Functions*/
+
+SELECT * FROM customer_name;
+
+--1. CSUM FUNCTION  : cumulative sum
+
+SELECT cust_id, income, state_code, CSUM(income, state_code) FROM customer_name;
+
+--2. CSUM used to create rownum
+
+SELECT CSUM(1,1), cust_id, income, state_code FROM customer_name;
+
+--3. MSUM Function : Moving sum
+
+SELECT cust_id, income, state_code, MSUM(income,3, state_code) FROM customer_name;
+
+--4. MSUM FUNCTION : Moving average
+
+SELECT cust_id, income, state_code, MAVG(income,3, state_code) FROM customer_name;
+
+--5. MDIFF Function : moving difference
+
+SELECT cust_id, income, state_code, MDIFF(income,3, state_code) FROM customer_name;
+
+--6. select any two sample records
+
+SELECT * FROM customer SAMPLE 2;
+
+SELECT SAMPLEID,cust_id, income, age FROM customer_name SAMPLE 2,2 ORDER BY 1;  --sample grouping logic is given
+
+--7 . RANK Function to rank and qualify to filter the records
+
+SELECT cust_id, income, RANK(income) FROM customer_name qualify rank(income) < 4;
+
+select top 4 * from customer_name where income < 50000 order by income desc;
+
+--8 . 
