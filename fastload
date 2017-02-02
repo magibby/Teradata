@@ -1,0 +1,35 @@
+.LOGON 127.0.0.1/dbc,dbc;
+
+DATABASE financial;
+DROP TABLE emp_er1;
+DROP TABLE emp_er2;
+DROP TABLE emp1;
+
+CREATE SET TABLE emp1 (
+empno SMALLINT FORMAT '999' NOT NULL
+,name VARCHAR(20)
+,salary DECIMAL(8,2)
+,city VARCHAR(12)
+,state VARCHAR(2)
+,doj DATE FORMAT 'yyyy-mm-dd')
+UNIQUE PRIMARY INDEX (empno);
+
+.SET record vartext ",";
+BEGIN LOADING emp1
+ERRORFILES emp_er1, emp_er2;
+
+define
+empno (VARCHAR(3)),
+Name (VARCHAR(20)),
+sal (VARCHAR(8)),
+cty (VARCHAR(12)),
+state (VARCHAR(2)),
+doj (VARCHAR(10))
+FILE = d:\DATA\emp_data.txt;
+SHOW;
+INSERT INTO emp1 (empno,name,salary,city,state,doj)
+VALUES (:empno, :name , :sal, :cty, :state, :doj);
+
+END LOADING;
+
+logoff;
