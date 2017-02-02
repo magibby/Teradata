@@ -1,0 +1,32 @@
+REPLACE PROCEDURE Sales_Dept_Grant ( )
+BEGIN
+Declare GrantStmt VARCHAR(77) Default '';
+For UserList as UserList CURSOR FOR
+Select User_Name, Admin_Ind From Sales_Dept_Users
+Do
+CASE UserList.Admin_Ind
+WHEN 0 Then
+Set GrantStmt = 'GRANT SELECT on Sales_Dept to ' || UserList.User_Name;
+ELSE
+Set GrantStmt = 'GRANT ALL on Sales_Dept to ' || UserList.User_Name || '
+With Grant Option';
+END CASE;
+CALL DBC.SysExecSql( :GrantStmt );
+END For;
+END;
+
+
+CT Sales_Dept (Acct varchar(44), Sale_Date DATE, Gross DEC(18,2), Net DEC(18,2);
+insert into Sales_Dept values ('Acme Bearings','2013-02-13',12345.00,1234.50)
+;insert into Sales_Dept values ('Horse Hockey','2013-03-23',57890.00,5789.00)
+;insert into Sales_Dept values ('My Jaxx','2013-04-02',678930.00,67893.00)
+CT Sales_Dept_Users (User_Name varchar(32), Admin_Ind BYTEINT);
+insert into Sales_Dept_Users values ('GC151000',1)
+;insert into Sales_Dept_Users values ('dulles',0)
+
+
+DECLAREcalc_cursor CURSOR FOR
+SELECT AccountType, AccountNumber, (OpeningBalance+AccruedInterest) AS BaseAmount FROM Savings
+WHERE(AccountType= :Arg_AccontType
+OR 'A '= :Arg_AccontType)
+AND LastAccrualDate< DATE;
