@@ -1,0 +1,485 @@
+sel * from emp where ename like some('%r%','%j%')
+
+sel a.* , b.* from emp a inner join emp_address b on a.empno = b.empno;
+
+sel a.* , b.* frm emp a inner join emp_address b on a.empno = b.empno;
+
+select a.*, b.* from emp a left outer join emp_address b on a.empno = b.empno;
+select a.*, b.* from emp a left join emp_address b on a.empno = b.empno;
+
+
+select a.*, b.* from emp a right join emp_address b on a.empno = b.empno;
+
+select a.*, b.* from emp a full join emp_address b on a.empno = b.empno;
+
+select coalesce(a.empno,b.empno) as empno,a.ename,a.sal,a.commission,b.address from emp a full join emp_address b on a.empno = b.empno;
+
+select age,gender,count(*) as Gender_Count from customer group by age,gender;
+
+
+select age,gender, income from customer_name with sum(income) by gender order by age,gender;
+
+select age,gender, income from customer_name with max(income) by gender order by age,gender;
+
+create view v1 as
+(select empno, ename, commission, sal+ commission as total from emp);
+
+
+cv v2 as
+(select empno, ename, commission, sal+ commission as total from emp);
+
+update customer_m set gender = 'F' where cust_id = 1362500;
+
+create macro m_customer as (select * from customer_name;);
+
+select * from dbc.tables where upper(databasename) = 'FINANCIAL';
+
+SELECT * FROM DBC.COLUMNS WHERE COLUMNNAME LIKE 'empname';
+
+
+create volatile table vt2 as (select EMPNO,ENAME, SAL from emp) with data on commit preserve rows;
+
+create global temporary table gt1 (empno integer, ename varchar(20), sal integer) on commit preserve rows;
+ 
+select age, gender, sum(income) from customer group by rollup (age,gender) order by age, gender;
+
+sel empno, dob, dob(format 'mmm-dd-yyyy') from emp_dbo;
+
+year = (2015 - 1900) * 1000
+
+ct t3 (empno int unique not null, ename varchar(10), deptno int, idcardno int primary key not null);
+
+ct t4 (empno int primary key not null, ename varchar(10), deptno int, idcardno int) primary index (deptno) ;
+
+ct t5 (empno int , ename varchar(10), deptno int, idcardno int) no primary index ;
+
+
+ct order1 (orderno int not null, custno int not null, orderdate date, ordertotal decimal(10,2))
+primary index(custno)
+partition by case_n
+(ordertotal < 1000, ordertotal < 5000, ordertotal < 10000 , no case, unknown);
+
+ct order2 (orderno int not null, custno int not null, orderdate date, ordertotal decimal(10,2))
+unique primary index(custno,orderdate)
+partition by range_n
+(orderdate between date '2000-01-01' and date '2000-12-31' each interval '1' month);
+
+select c.cust_id, c.income,cn.age,cn.gender from customer c inner join customer_name cn on (c.cust_id = cn.cust_id);
+
+create join index ji1 as
+select c.cust_id, c.income,cn.age,cn.gender 
+from customer c inner join customer_name cn 
+on (c.cust_id = cn.cust_id);
+
+
+create join index ji2 as select count(1) as count_number, age, gender from customer
+group by age,gender
+;
+
+create join index ji2 as select gender , count(1) AS total_p from customer group by gender;
+
+sel * from emp where ename like some('%r%','%j%')
+
+sel a.* , b.* from emp a inner join emp_address b on a.empno = b.empno;
+
+sel a.* , b.* frm emp a inner join emp_address b on a.empno = b.empno;
+
+select a.*, b.* from emp a left outer join emp_address b on a.empno = b.empno;
+select a.*, b.* from emp a left join emp_address b on a.empno = b.empno;
+
+
+select a.*, b.* from emp a right join emp_address b on a.empno = b.empno;
+
+select a.*, b.* from emp a full join emp_address b on a.empno = b.empno;
+
+select coalesce(a.empno,b.empno) as empno,a.ename,a.sal,a.commission,b.address from emp a full join emp_address b on a.empno = b.empno;
+
+select age,gender,count(*) as Gender_Count from customer group by age,gender;
+
+
+select age,gender, income from customer_name with sum(income) by gender order by age,gender;
+
+select age,gender, income from customer_name with max(income) by gender order by age,gender;
+
+create view v1 as
+(select empno, ename, commission, sal+ commission as total from emp);
+
+
+cv v2 as
+(select empno, ename, commission, sal+ commission as total from emp);
+
+update customer_m set gender = 'F' where cust_id = 1362500;
+
+create macro m_customer as (select * from customer_name;);
+
+select * from dbc.tables where upper(databasename) = 'FINANCIAL';
+
+SELECT * FROM DBC.COLUMNS WHERE COLUMNNAME LIKE 'empname';
+
+
+create volatile table vt2 as (select EMPNO,ENAME, SAL from emp) with data on commit preserve rows;
+
+create global temporary table gt1 (empno integer, ename varchar(20), sal integer) on commit preserve rows;
+ 
+select age, gender, sum(income) from customer group by rollup (age,gender) order by age, gender;
+
+sel empno, dob, dob(format 'mmm-dd-yyyy') from emp_dbo;
+
+year = (2015 - 1900) * 1000
+
+ct t3 (empno int unique not null, ename varchar(10), deptno int, idcardno int primary key not null);
+
+ct t4 (empno int primary key not null, ename varchar(10), deptno int, idcardno int) primary index (deptno) ;
+
+ct t5 (empno int , ename varchar(10), deptno int, idcardno int) no primary index ;
+
+
+ct order1 (orderno int not null, custno int not null, orderdate date, ordertotal decimal(10,2))
+primary index(custno)
+partition by case_n
+(ordertotal < 1000, ordertotal < 5000, ordertotal < 10000 , no case, unknown);
+
+ct order2 (orderno int not null, custno int not null, orderdate date, ordertotal decimal(10,2))
+unique primary index(custno,orderdate)
+partition by range_n
+(orderdate between date '2000-01-01' and date '2000-12-31' each interval '1' month);
+
+select c.cust_id, c.income,cn.age,cn.gender from customer c inner join customer_name cn on (c.cust_id = cn.cust_id);
+
+create join index ji1 as
+select c.cust_id, c.income,cn.age,cn.gender 
+from customer c inner join customer_name cn 
+on (c.cust_id = cn.cust_id);
+
+
+create join index ji2 as select count(1) as count_number, age, gender from customer
+group by age,gender
+;
+
+create join index ji2 as select gender , count(1) AS total_p from customer group by gender;
+
+REPLACE PROCEDURE FINANCIAL.MODEL_GROUPING_LOGIC ()
+
+BEGIN
+
+DECLARE L_SEQ_NO INTEGER;
+
+UPDATE FINANCIAL.MODEL_SEQ SET SEQ_NO = 1;
+
+DELETE FINANCIAL.MODEL_GRP;
+
+FOR MODELCURSOR AS C_MODELS CURSOR FOR
+
+SELECT X.OLD_MODEL_ID
+FROM FINANCIAL.REPLACEMENTS X
+ORDER BY X.OLD_MODEL_ID
+DO
+
+BEGIN
+
+SELECT SEQ_NO INTO L_SEQ_NO FROM FINANCIAL.MODEL_SEQ;
+
+CALL FINANCIAL.INSERT_ALL_NEW(MODELCURSOR.OLD_MODEL_ID,L_SEQ_NO);
+
+UPDATE FINANCIAL.MODEL_SEQ SET SEQ_NO = SEQ_NO + 1;
+
+END;
+
+END FOR;
+
+END;
+
+REPLACE PROCEDURE FINANCIAL.INSERT_ALL_OLD (IN NEW_MODEL_ID INTEGER, IN SEQ_NO INTEGER)
+
+BEGIN
+
+DECLARE L_IN_MODEL_ID INTEGER;
+DECLARE L_SEQ_NO INTEGER;
+DECLARE L_DUP_COUNT INTEGER;
+
+
+SET L_IN_MODEL_ID = NEW_MODEL_ID;
+SET L_SEQ_NO = SEQ_NO;
+
+BEGIN
+
+FOR OLDMDLCUR AS OLDCUR CURSOR FOR
+SELECT Y.OLD_MODEL_ID FROM FINANCIAL.REPLACEMENTS Y
+WHERE Y.NEW_MODEL_ID = L_IN_MODEL_ID
+AND Y.OLD_MODEL_ID NOT IN (SELECT Z.OLD_MODEL_ID FROM FINANCIAL.MODEL_GRP1 Z WHERE Z.NEW_MODEL_ID = L_IN_MODEL_ID)
+
+DO
+
+BEGIN
+
+SET L_DUP_COUNT = 0;
+
+SELECT COUNT(1) 
+INTO L_DUP_COUNT FROM
+FINANCIAL.MODEL_GRP1
+WHERE GROUP_ID = L_SEQ_NO
+AND NEW_MODEL_ID = L_IN_MODEL_ID
+AND OLD_MODEL_ID = OLDMDLCUR.OLD_MODEL_ID);
+
+
+IF (L_DUP_COUNT = 0) THEN
+
+INSERT INTO FINANCIAL.MODEL_GRP1 VALUES (L_SEQ_NO,OLDMDLCUR.OLD_MODEL_ID, L_IN_MODEL_ID);
+
+--NOW CALLINF THE PROCEDURE TO INSERT ALL THE NEW MODEL LIST
+
+CALL FINANCIAL.INSERT_ALL_OLD(OLDMDLCUR.OLD_MODEL_ID,L_SEQ_NO);
+
+--CALLING THE PROCEDURE TO INSERT ALL THE OLD MODEL LIST
+
+CALL FINANCIAL.INSERT_ALL_NEW(OLDMDLCUR.OLD_MODEL_ID,L_SEQ_NO);
+
+
+
+END IF;
+
+END;
+
+END FOR;
+
+END ; --MAIN BLOCK
+
+END;
+
+REPLACE PROCEDURE FINANCIAL.INSERT_ALL_NEW (IN OLD_MODEL_ID INTEGER, IN SEQ_NO INTEGER)
+
+BEGIN
+
+DECLARE L_IN_MODEL_ID INTEGER;
+DECLARE L_SEQ_NO INTEGER;
+DECLARE L_DUP_COUNT INTEGER;
+
+
+SET L_IN_MODEL_ID = OLD_MODEL_ID;
+SET L_SEQ_NO = SEQ_NO;
+
+BEGIN
+
+FOR NEWMDLCUR AS NEWCUR CURSOR FOR
+SELECT Y.NEW_MODEL_ID FROM FINANCIAL.REPLACEMENTS Y
+WHERE Y.OLD_MODEL_ID = L_IN_MODEL_ID
+AND Y.NEW_MODEL_ID NOT IN (SELECT Z.NEW_MODEL_ID FROM FINANCIAL.MODEL_GRP Z WHERE Z.OLD_MODEL_ID = L_IN_MODEL_ID)
+
+DO
+
+BEGIN
+
+SET L_DUP_COUNT = 0;
+
+SELECT COUNT(1) 
+INTO L_DUP_COUNT FROM
+FINANCIAL.MODEL_GRP
+WHERE GROUP_ID = L_SEQ_NO
+AND OLD_MODEL_ID = L_IN_MODEL_ID
+AND NEW_MODEL_ID = NEWMDLCUR.NEW_MODEL_ID;
+
+
+IF (L_DUP_COUNT = 0) THEN
+
+INSERT INTO FINANCIAL.MODEL_GRP VALUES (L_SEQ_NO, L_IN_MODEL_ID, NEWMDLCUR.NEW_MODEL_ID);
+
+--CALLING THE PROCEDURE TO INSERT ALL THE OLD MODEL LIST
+
+CALL FINANCIAL.INSERT_ALL_NEW(NEWMDLCUR.NEW_MODEL_ID,L_SEQ_NO);
+
+--NOW CALLINF THE PROCEDURE TO INSERT ALL THE NEW MODEL LIST
+
+CALL FINANCIAL.INSERT_ALL_OLD(NEWMDLCUR.NEW_MODEL_ID,L_SEQ_NO);
+
+END IF;
+
+END;
+
+END FOR;
+
+END ; --MAIN BLOCK
+
+END;
+
+.LOGON 127.0.0.1/dbc,dbc;
+
+DATABASE financial;
+DROP TABLE emp_er1;
+DROP TABLE emp_er2;
+DROP TABLE emp1;
+
+CREATE SET TABLE emp1 (
+empno SMALLINT FORMAT '999' NOT NULL
+,name VARCHAR(20)
+,salary DECIMAL(8,2)
+,city VARCHAR(12)
+,state VARCHAR(2)
+,doj DATE FORMAT 'yyyy-mm-dd')
+UNIQUE PRIMARY INDEX (empno);
+
+.SET record vartext ",";
+BEGIN LOADING emp1
+ERRORFILES emp_er1, emp_er2;
+
+define
+empno (VARCHAR(3)),
+Name (VARCHAR(20)),
+sal (VARCHAR(8)),
+cty (VARCHAR(12)),
+state (VARCHAR(2)),
+doj (VARCHAR(10))
+FILE = d:\DATA\emp_data.txt;
+SHOW;
+INSERT INTO emp1 (empno,name,salary,city,state,doj)
+VALUES (:empno, :name , :sal, :cty, :state, :doj);
+
+END LOADING;
+
+logoff;
+
+
+CREATE SET TABLE financial.emp_phone ,NO FALLBACK ,
+     NO BEFORE JOURNAL,
+     NO AFTER JOURNAL
+     (
+      EmpNo VARCHAR(10) CHARACTER SET LATIN NOT CASESPECIFIC,
+      PhoneNo VARCHAR(10) CHARACTER SET LATIN NOT CASESPECIFIC)
+PRIMARY INDEX ( EmpNo );
+
+/*HASH INDEX SYNTAX*/
+
+/*SYNTAX 1*/
+CREATE HASH INDEX H1 (AGE, CUST_ID, INCOME, GENDER) ON CUSTOMER BY CUST_ID (ORDER BY HASH CUST_ID);
+
+/*TABLE SHOULD HAVE A PRIMARY INDEX, THEN ONLY WE CAN CREATE A HASH INDEX, HENCE FOR NOPI TABLE CANNOT HAVE A HASH INDEX*/ 
+
+/*SYNTAX 2*/
+CREATE HASH INDEX H2 (AGE, CUST_ID, INCOME, GENDER) ON CUSTOMER BY CUST_ID (ORDER BY VALUES);
+
+/*SYNTAX 3*/
+CREATE HASH INDEX H3 (AGE, CUST_ID, INCOME, GENDER) ON CUSTOMER;
+
+/*VALUE ORDERED NON -UNIQUE SECONDARY INDEX*/
+
+CREATE TABLE EMP
+
+CREATE SET TABLE FINANCIAL.CUSTOMER ,NO FALLBACK ,
+     NO BEFORE JOURNAL,
+     NO AFTER JOURNAL,
+     CHECKSUM = DEFAULT
+     (
+      CUST_ID INTEGER NOT NULL,
+      INCOME INTEGER,
+      AGE SMALLINT,
+      YEARS_WITH_BANK SMALLINT,
+      NBR_CHILDREN SMALLINT,
+      GENDER CHAR(1) CHARACTER SET LATIN NOT CASESPECIFIC,
+      MARITAL_STATUS CHAR(1) CHARACTER SET LATIN NOT CASESPECIFIC)
+UNIQUE PRIMARY INDEX ( CUST_ID )
+INDEX (AGE); /*THIS IS NON UNIQUE SECONDARY INDEX*/
+INDEX(AGE) ORDER BY VALUES (AGE); /*THIS IS VALUE ORDERED NON UNIQUE SECONDARY INDEX*/
+
+
+
+CREATE TABLE FINANCIAL.CUSTOMER1 ,NO FALLBACK ,
+     NO BEFORE JOURNAL,
+     NO AFTER JOURNAL,
+     CHECKSUM = DEFAULT
+     (
+      CUST_ID INTEGER NOT NULL,
+      INCOME INTEGER,
+      AGE SMALLINT,
+      YEARS_WITH_BANK SMALLINT,
+      NBR_CHILDREN SMALLINT,
+      GENDER CHAR(1) CHARACTER SET LATIN NOT CASESPECIFIC,
+      MARITAL_STATUS CHAR(1) CHARACTER SET LATIN NOT CASESPECIFIC)
+UNIQUE PRIMARY INDEX ( CUST_ID )
+INDEX(AGE) ORDER BY VALUES (AGE); /*THIS IS VALUE ORDERED NON UNIQUE SECONDARY INDEX*/
+
+
+SET AND MULTISET
+
+HELP DATABASE FINANCIAL;
+
+SHOW TABLE T5;
+
+CT CUSTOMER100 AS (SELECT * FROM CUSTOMER) WITH NO DATA;
+
+SHOW TABLE CUSTOMER101;
+
+CT CUSTOMER101 AS CUSTOMER WITH NO DATA;
+
+INSERT INTO CUSTOMER100 
+SELECT * FROM CUSTOMER;
+
+SELECT * FROM CUSTOMER100;
+
+INS INTO CUSTOMER101 VALUES (?,?,?,?,?,?,?);
+
+SELECT * FROM CUSTOMER101;
+
+CT EMP_INTEGER
+(
+EMPNO INTEGER,
+AGE BYTEINT,
+MOBILENO BIGINT
+);
+
+INSERT INTO emp_integer VALUES (1011,250,9845098450);
+
+SELECT * FROM EMP_INTEGER;
+
+SELECT 'INSERT INTO FINANCIAL.REPLACEMENTS VALUES ( ' || OLD_MODEL_ID||','||MODEL_NM_OLD||','||
+NEW_MODEL_ID||','||MODEL_NM_NEW||');'  AS QUERY_STMT FROM CARMA_DATA_LAB_VWS,REPLACEMENTS;
+
+OLD_MODEL_ID INTEGER,
+MODEL_NM_OLD
+NEW_MODEL_ID
+MODEL_NM_NEW
+
+SEL * FROM emp1;
+
+SEL * FROM emp_er1;
+
+/**/
+CALENDAR
+
+SELECT calendar_date, day_of_week, day_of_month, day_of_year, day_of_calendar, weekday_of_month, week_of_month, week_of_year, week_of_calendar, month_of_quarter, month_of_year, month_of_calendar, quarter_of_year, quarter_of_calendar, year_of_calendar
+FROM SYS_CALENDAR.CALENDAR
+
+HELP TABLE SYS_CALENDAR.CALENDAR;
+
+SELECT * FROM SYS_CALENDAR.CALENDAR
+WHERE CALENDAR_DATE = DATE;
+
+CT EMP_COMPRESS
+(
+EMPNO INT,
+ENAME VARCHAR(10),
+CITY CHAR(10) COMPRESS('BANGALORE','GURGOAN','CHENNAI','MUMBAI'));
+
+SHOW TABLE EMP_COMPRESS;
+
+CT MODEL_GRP
+(
+GROUP_ID INTEGER,
+OLD_MODEL_ID INTEGER,
+NEW_MODEL_ID INTEGER
+);
+
+CT MODEL_SEQ
+(
+SEQ_NO INTEGER
+);
+
+
+CT REPLACEMENTS
+(
+OLD_MODEL_ID INTEGER,
+MODEL_NM_OLD VARCHAR(100),
+NEW_MODEL_ID INTEGER,
+MODEL_NM_NEW VARCHAR(100)
+);
+
+1  214  1345
+1  214  1346
