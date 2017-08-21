@@ -1,0 +1,144 @@
+.LOGON 127.0.0.1/dbc,dbc;
+DATABASE financial;
+COLLECT STATS ON customer COLUMN (age);
+COLLECT STATS ON customer INDEX(cust_id);
+.logoff
+.EXIT
+
+BTEQ 13.00.00.03 Wed Feb 25 12:33:45 2015
+ 
++---------+---------+---------+---------+---------+---------+---------+----
+.LOGON 127.0.0.1/dbc,
+
+ *** Logon successfully completed.
+ *** Teradata Database Release is 13.00.00.12                   
+ *** Teradata Database Version is 13.00.00.12                     
+ *** Transaction Semantics are BTET.
+ *** Character Set Name is 'ASCII'.
+ 
+ *** Total elapsed time was 1 second.
+ 
++---------+---------+---------+---------+---------+---------+---------+----
+DATABASE financial;
+
+ *** New default database accepted. 
+ *** Total elapsed time was 1 second.
+
+
++---------+---------+---------+---------+---------+---------+---------+----
+COLLECT STATS ON customer COLUMN (age);
+
+ *** Update completed. One row changed. 
+ *** Total elapsed time was 1 second.
+
+
++---------+---------+---------+---------+---------+---------+---------+----
+COLLECT STATS ON customer INDEX(cust_id);
+
+ *** Update completed. One row changed. 
+ *** Total elapsed time was 1 second.
+
+
++---------+---------+---------+---------+---------+---------+---------+----
+.logoff
+ *** You are now logged off from the DBC.
++---------+---------+---------+---------+---------+---------+---------+----
+.EXIT
+ *** Exiting BTEQ...
+ *** RC (return code) = 0 
+
+---------fast load
+
+.LOGON 127.0.0.1/dbc,dbc;
+
+DATABASE financial;
+DROP TABLE emp_er1;
+DROP TABLE emp_er2;
+DROP TABLE emp2;
+
+CREATE SET TABLE emp2 (
+empno SMALLINT FORMAT '999' NOT NULL
+,name VARCHAR(20)
+,salary DECIMAL(8,2)
+,city VARCHAR(12)
+,state VARCHAR(2)
+,doj DATE FORMAT 'yyyy-mm-dd')
+UNIQUE PRIMARY INDEX (empno);
+
+.SET record vartext ",";
+BEGIN LOADING emp2
+ERRORFILES emp_er1, emp_er2;
+
+define
+empno (VARCHAR(3)),
+Name (VARCHAR(20)),
+sal (VARCHAR(8)),
+cty (VARCHAR(12)),
+state (VARCHAR(2)),
+doj (VARCHAR(10))
+FILE = D:\DATA\emp_data.txt;
+SHOW;
+INSERT INTO emp2 (empno,name,salary,city,state,doj)
+VALUES (:empno, :name , :sal, :cty, :state, :doj);
+
+END LOADING;
+
+logoff;
+
+7:46 PM 8/21/2017
+
+.Logtable financial.emp_log;
+.Logon 127.0.0.1/dbc,dbc;
+database financial;
+.Begin Import Mload 
+Tables Emp_phone; 
+.Layout Layoutname;
+.Field EmpNo * char(10); 
+.Field Phoneno * char(10); 
+.DML Label DMLlabelname 
+Do insert for missing update rows;
+Update Emp_phone
+set PhoneNo = :Phoneno
+where EmpNo = :Empno;
+Insert into Emp_phone 
+(EmpNo, PhoneNo)
+values
+(:EmpNo, :Phoneno);
+.Import Infile D:\ml\emp.txt 
+format text 
+Layout LayoutName 
+Apply DMLlabelname;
+.End Mload;
+.Logoff;
+
+.LOGON 127.0.0.1/dbc,dbc;
+release lock (financial.emp), override;
+logoff;
+7:47 PM 8/21/2017
+
+multi load
+-----------
+
+.Logtable financial.emp_log;
+.Logon 127.0.0.1/dbc,dbc;
+database financial;
+.Begin Import Mload 
+Tables Emp_phone; 
+.Layout Layoutname;
+.Field EmpNo * char(10); 
+.Field Phoneno * char(10); 
+.DML Label DMLlabelname 
+Do insert for missing update rows;
+Update Emp_phone
+set PhoneNo = :Phoneno
+where EmpNo = :Empno;
+Insert into Emp_phone 
+(EmpNo, PhoneNo)
+values
+(:EmpNo, :Phoneno);
+.Import Infile D:\ml\emp.txt 
+format text 
+Layout LayoutName 
+Apply DMLlabelname;
+.End Mload;
+.Logoff;
